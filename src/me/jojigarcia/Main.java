@@ -9,7 +9,7 @@ public class Main {
         ArrayList<String> taskList = new ArrayList<String>();
         int option;
 
-        while ((option = showMenu(taskList)) != 4){
+        while ((option = showMenu(taskList)) != 0){
             switch (option){
                 case 1:
                     // Ver tarea
@@ -22,6 +22,17 @@ public class Main {
                 case 3:
                     if (taskList.size() > 0) {
                         deleteTask(taskList);
+                    }
+                    // Eliminar tarea
+                    break;
+                case 4:
+                    if (taskList.size() > 0) {
+
+                    }
+                    // Editar tarea
+                    break;
+                case 5:
+                    if (taskList.size() > 1) {
                     }
                     // Eliminar tarea
                     break;
@@ -58,7 +69,7 @@ public class Main {
 
         do{
             System.out.println("Introducir nueva tarea: ");
-            task = input.nextLine();
+            task = input.nextLine().trim().replaceAll("\\s+", " ");
         }while(task.length()==0);
 
         myTasks.add(task);
@@ -73,21 +84,36 @@ public class Main {
     }
     public static int showMenu(ArrayList<String> myTasks){
         Scanner input = new Scanner(System.in);
+        ArrayList<Integer> options = new ArrayList<Integer>();
+        int option;
 
-        System.out.println("");
         System.out.println("**********************");
         System.out.println("1 - Ver tarea         ");
+        options.add(1);
         System.out.println("2 - Añadir tarea      ");
+        options.add(2);
 
         if (myTasks.size() > 0) {
             System.out.println("3 - Eliminar tarea    ");
+            options.add(3);
+            System.out.println("4 - Editar tarea    ");
+            options.add(4);
         }
 
-        System.out.println("4 - Salir             ");
-        System.out.println("**********************");
-        System.out.println("");
-        System.out.println("Opción: ");
+        if (myTasks.size() > 1) {
+            System.out.println("5 - Mover tarea    ");
+            options.add(5);
+        }
 
-        return input.nextInt();
+        System.out.println("0 - Salir             ");
+        options.add(0);
+        System.out.println("**********************");
+
+        do {
+            System.out.println("Opción: ");
+            option = input.nextInt();
+        }while(option < 0 || option > options.size());
+
+        return option;
     }
 }
