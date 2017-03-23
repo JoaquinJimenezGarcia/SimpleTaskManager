@@ -9,6 +9,11 @@ public class Main {
         ArrayList<String> taskList = new ArrayList<String>();
         int option;
 
+        taskList.add("Hola");
+        taskList.add("como");
+        taskList.add("estas");
+        taskList.add("tu");
+
         while ((option = showMenu(taskList)) != 0){
             switch (option){
                 case 1:
@@ -27,19 +32,64 @@ public class Main {
                     break;
                 case 4:
                     if (taskList.size() > 0) {
-
+                        editTask(taskList);
                     }
                     // Editar tarea
                     break;
                 case 5:
                     if (taskList.size() > 1) {
+                        moveTask(taskList);
                     }
-                    // Eliminar tarea
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    private static void moveTask(ArrayList<String> myTasks) {
+        Scanner input = new Scanner(System.in);
+        int fromIndexTask, toIndexTask;
+
+        showTasks(myTasks);
+
+        do{
+            System.out.println("Introduce el índice de la tarea a mover: ");
+            fromIndexTask = input.nextInt();
+        }while (!correctIndex(fromIndexTask,myTasks));
+
+        do{
+            System.out.println("Introduce el índice de la posición: ");
+            toIndexTask = input.nextInt();
+        }while (!correctIndex(toIndexTask, myTasks));
+
+        myTasks.add(toIndexTask, myTasks.get(fromIndexTask));
+        myTasks.remove(fromIndexTask);
+    }
+
+    private static void editTask(ArrayList<String> myTasks) {
+        Scanner input = new Scanner(System.in);
+        int indexTask;
+        String editedTask;
+
+        showTasks(myTasks);
+
+        // Leer el índice de la tarea a modificar
+        do {
+            System.out.println("Introduzca el índice a modificar: ");
+            indexTask = input.nextInt();
+        }while(!correctIndex(indexTask,myTasks));
+
+        input.nextLine();
+
+        do{
+            // Leer la nueva tarea
+            System.out.println("Introducir nueva tarea: ");
+            editedTask = input.nextLine().trim().replaceAll("\\s+", " ");
+        }while(editedTask.length() == 0 || myTasks.contains(editedTask));
+
+        myTasks.set(indexTask,editedTask);
+
     }
 
     public static void deleteTask(ArrayList<String> myTasks){
